@@ -2,9 +2,13 @@
   <div id="app">
     <TodoHeader />
     <TodoTitle />
-    <TodoInput />
-    <TodoController />
-    <TodoList />
+    <TodoInput v-on:addItem="addOneItem" />
+    <TodoController v-on:clearAll="clearAllItem" />
+    <TodoList
+      v-bind:propsdata="todoItems"
+      v-on:removeItem="removeOneItem"
+      v-on:toggleItem="toggleOneItem"
+    />
     <TodoFooter />
   </div>
 </template>
@@ -17,8 +21,53 @@ import TodoController from "./components/TodoController";
 import TodoList from "./components/TodoList";
 import TodoFooter from "./components/TodoFooter";
 
+import getDate from "./assets/commonJS/getDate.js";
 export default {
   name: "App",
+  data() {
+    return {
+      todoItems: [],
+    };
+  },
+
+  created() {
+    if (localStorage.length > 0) {
+      for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
+          this.todoItems.push(
+            JSON.parse(localStorage.getItem(localStorage.key(i)))
+          );
+        }
+      }
+    }
+  },
+
+  methods: {
+    addOneItem(todoItem) {
+      var value = {
+        item: todoItem,
+        date: `${getDate().date} ${getDate().week}`,
+        time: getDate().time,
+        completed: false,
+      };
+      localStorage.setItem(todoItem, JSON.stringify(value));
+      this.todoItems.push(value);
+    },
+
+    removeOneItem(todoItem, index) {
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1);
+    },
+    toggleOneItem(todoItem) {
+      todoItem.completed = !todoItem.completed;
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+
+    clearAllItem() {
+      this.todoItems = [];
+      localStorage.clear();
+    },
+  },
   components: {
     TodoHeader,
     TodoTitle,
