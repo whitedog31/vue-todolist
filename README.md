@@ -1,24 +1,10 @@
-# vue-mytodo
+# Todo List
 
-## Project setup
-```
-yarn install
-```
+## 목적
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+- vue 에 대한 전체적인 Flow를 이해하기 위해 Todo List 제작
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## 질문
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- vue 라이프 사이클 ???
+- vue router 설정은 어떻게 ???
