@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader />
-    <TodoTitle />
+    <TodoTitle v-bind:propsdata="checkCount" />
     <TodoInput v-on:addItem="addOneItem" />
-    <TodoController v-on:clearAll="clearAllItem" />
+    <TodoController v-on:sortItem="sortAllItem" v-on:clearAll="clearAllItem" />
     <TodoList
       v-bind:propsdata="todoItems"
       v-on:removeItem="removeOneItem"
@@ -42,7 +42,50 @@ export default {
     }
   },
 
+  computed: {
+    checkCount() {
+      const checkLeftItems = () => {
+        let leftCount = 0;
+        for (let i = 0; i < this.todoItems.length; i++) {
+          if (this.todoItems[i].completed === false) {
+            leftCount++;
+          }
+        }
+        return leftCount;
+      };
+
+      const count = {
+        total: this.todoItems.length,
+        left: checkLeftItems(),
+      };
+      return count;
+    },
+  },
+
+  mounted() {
+    this.sortTodoOldest();
+  },
+
   methods: {
+    sortTodoLatest() {
+      this.todoItems.sort(function (a, b) {
+        return b.time - a.time;
+      });
+    },
+    sortTodoOldest() {
+      this.todoItems.sort(function (a, b) {
+        return a.time - b.time;
+      });
+    },
+
+    sortAllItem(selectedSort) {
+      if (selectedSort.value === "date-desc") {
+        this.sortTodoLatest();
+      } else if (selectedSort.value === "date-asc") {
+        this.sortTodoOldest();
+      }
+    },
+
     addOneItem(todoItem) {
       var value = {
         item: todoItem,
