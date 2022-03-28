@@ -9,6 +9,8 @@
       v-on:removeItem="removeOneItem"
       v-on:toggleItem="toggleOneItem"
     />
+    <FileBrowser />
+
     <TodoFooter />
   </div>
 </template>
@@ -20,8 +22,10 @@ import TodoInput from "./components/TodoInput";
 import TodoController from "./components/TodoController";
 import TodoList from "./components/TodoList";
 import TodoFooter from "./components/TodoFooter";
+import FileBrowser from "./components/FileBrowser";
 
 import getDate from "./assets/commonJS/getDate.js";
+
 export default {
   name: "App",
   data() {
@@ -118,6 +122,9 @@ export default {
     TodoController,
     TodoList,
     TodoFooter,
+    FileBrowser,
   },
 };
 </script>
+
+FileBrowser
